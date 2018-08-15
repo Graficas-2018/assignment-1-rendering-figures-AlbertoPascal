@@ -173,24 +173,84 @@ function draw(gl, obj)
 // TO DO: Create functions needed to generate the vertex data for the different figures.
 function createSquare(gl) 
 {
-    var square = {};
+    var vertexBuffer;
+    vertexBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+    var verts = [
+        0.5,  1.25,  0.0, //las distancias calculadas fueron a base de prueba y error para asegurar que todas las figuras quepan. 
+        -.5,  1.25,  0.0,
+        .5, 0.25,  0.0,
+        //voy a argegar otra línea para sí convertir el triángulo en un cuadrado:
+        -.5,0.25,0.0
+    ];
+
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(verts), gl.STATIC_DRAW);
+    var square = {buffer:vertexBuffer, vertSize:3, nVerts:4, primtype: gl.TRIANGLE_STRIP};
     return square;
 }
 
 function createTriangle(gl)
 {
-    var triangle = {};
+    var vertexBuffer;
+    vertexBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+    var verts = [
+        0.0, 1.25, 0.0,
+        .5, 0.25,  0.0,
+        -.5, 0.25,  0.0
+    ];
+
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(verts), gl.STATIC_DRAW);
+    
+    var triangle = {buffer:vertexBuffer, vertSize:3, nVerts:3, primtype:gl.TRIANGLE_STRIP};
     return triangle;
 }
 
 function createRhombus(gl)
 {
-    var rhombus = {};
+    var vertexBuffer;
+    vertexBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+    var verts = [
+        0.0,  -1,  0.0, //las distancias calculadas fueron a base de prueba y error para asegurar que todas las figuras quepan. 
+        -.5,  -.5,  0.0,
+        .5, -0.5,  0.0,
+        //voy a argegar otra línea para sí convertir el triángulo en un cuadrado:
+        0.0,0.0,0.0
+
+
+    ];
+
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(verts), gl.STATIC_DRAW);
+    var rhombus = {buffer:vertexBuffer, vertSize:3, nVerts:4, primtype:gl.TRIANGLE_STRIP};
     return rhombus;
 }
 
 function createSphere(gl, radius)
 {
-    var sphere = {};
+    var vertexBuffer;
+    vertexBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+    var centroX = 0.0;
+    var centroY=-1;
+    var radio = 0.5;
+    var verts = [centroX,centroY,0]; //este va a ser el centro. Necesito usar la de x^2 + y^2 = r^2. Utilizar seno y coseno de cierto ángulo alpha. El ángulo va incrementando.
+    var x=0;
+    var y=0;
+    var alpha=-1; //ángulo en grados. Necesito convertirlo a radianes. 
+    var rads=0;
+    while(alpha<360)
+    {
+        alpha+=1;
+        rads = alpha*(2*Math.PI)/360;
+        x=(centroX + Math.cos(rads))*radius;
+        y=(centroY + Math.sin(rads))*radius;
+        verts.push(x,y,0);
+    }
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(verts), gl.STATIC_DRAW);
+    var sphere = {buffer:vertexBuffer, vertSize:3, nVerts:362, primtype:gl.TRIANGLE_FAN};
     return sphere;
+    //var sphere = {};
+    //return sphere;
 }        
+
