@@ -232,14 +232,14 @@ function createSphere(gl, radius)
     vertexBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
     var centroX = 0.0;
-    var centroY=-1;
+    var centroY=-0;
     var radio = 0.5;
     var verts = [centroX,centroY,0]; //este va a ser el centro. Necesito usar la de x^2 + y^2 = r^2. Utilizar seno y coseno de cierto ángulo alpha. El ángulo va incrementando.
     var x=0;
     var y=0;
-    var alpha=-1; //ángulo en grados. Necesito convertirlo a radianes. 
+    var alpha=44; //ángulo en grados. Necesito convertirlo a radianes. 
     var rads=0;
-    while(alpha<360)
+    while(alpha<315)
     {
         alpha+=1;
         rads = alpha*(2*Math.PI)/360;
@@ -248,7 +248,7 @@ function createSphere(gl, radius)
         verts.push(x,y,0);
     }
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(verts), gl.STATIC_DRAW);
-    var sphere = {buffer:vertexBuffer, vertSize:3, nVerts:362, primtype:gl.TRIANGLE_FAN};
+    var sphere = {buffer:vertexBuffer, vertSize:3, nVerts:272, primtype:gl.TRIANGLE_FAN};
     return sphere;
     //var sphere = {};
     //return sphere;
